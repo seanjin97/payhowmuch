@@ -1,0 +1,1 @@
+<div>Result area</div>
