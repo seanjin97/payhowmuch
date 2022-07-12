@@ -20,8 +20,8 @@
 
 	const changeName = () => {
 		if (name.length === 0) {
-			const randomName = generateUsername('-', 0, 9);
-			// const randomName = `Person ${$personCount + 1}`;
+			// const randomName = generateUsername('-', 0, 9);
+			const randomName = `Person ${$personCount + 1}`;
 			const name = randomName;
 			personName = name;
 			focused = false;

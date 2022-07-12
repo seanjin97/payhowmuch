@@ -12,8 +12,8 @@
 	let expandedList: string[] = [];
 
 	const addPerson = () => {
-		const randomName = generateUsername('-', 0, 9);
-		// const randomName = `Person ${$personCount + 1}`;
+		// const randomName = generateUsername('-', 0, 9);
+		const randomName = `Person ${$personCount + 1}`;
 		const newPerson = {
 			id: uuidv4(),
 			name: randomName,

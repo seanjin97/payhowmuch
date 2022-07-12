@@ -15,6 +15,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>PayHowMuch</title>
+</svelte:head>
+
 <div>
 	<div class="container mx-auto px-12 ">
 		<div class="mt-2">
@@ -23,8 +27,8 @@
 					<Hero />
 					<Tax />
 					<People />
-					<Calculator />
-					<Results />
+					<!-- <Calculator />
+					<Results /> -->
 				</div>
 			</div>
 		</div>
@@ -35,4 +39,4 @@
 	</div>
 </div>
 
-<Footer />
+<!-- <Footer /> -->
