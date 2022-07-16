@@ -42,7 +42,7 @@
 				<Button
 					styleProps="{Math.ceil($percentageConfirmed) === 100
 						? ''
-						: 'btn-disabled btn-accent bg-accent opacity-50'} btn-disabled btn-accent text-neutral btn-accent hover:opacity-80 items-center"
+						: 'btn-disabled btn-accent bg-accent opacity-50'} btn-disabled bg-accent text-neutral btn-accent opacity-50 hover:opacity-80 items-center"
 				>
 					<span>
 						<!-- Copy Bill!<i class="fa-solid fa-copy ml-2" /> -->
