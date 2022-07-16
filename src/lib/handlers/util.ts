@@ -1,3 +1,5 @@
+import type { Item } from "$lib/types";
+
 export const abbr = (str: string) => {
     if (str !== null && str.length !== 0) {
         return str.match(/\b([A-Za-z0-9])/g).join('').toUpperCase();
@@ -30,6 +32,11 @@ export const priceFormatter = new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
  });
 
+ export const percentageFormatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+ })
+
 export const extractSvcCharge = (amount: number, svcCharge: number) => {
     const derivedSvcCharge = amount * svcCharge / 100;
     return derivedSvcCharge;
@@ -46,3 +53,23 @@ export const calculateGstAndSvcCharge = (svcCharge: number, amount: number, gst:
 
     return amount + extractedSvcCharge + extractedGst;
  }
+
+export const formatCopyText = (name: string, items: Item[], subtotal: number, gst: number, svcCharge: number) => {
+    const extractedSvcCharge = extractSvcCharge(subtotal, svcCharge);
+    const extractedGst = extractGst(extractedSvcCharge, subtotal, gst);
+
+    let text = `**${name}**\n\n`;
+    items.forEach((item, index) => text += `\`\`\`${index + 1}: ${item.name} - $${priceFormatter.format(item.price)}\`\`\`\n`);
+    text += "\n-------------------\n";
+    text += "```";
+    text += `Subtotal - $${priceFormatter.format(subtotal)}`;
+    text += "```\n";
+    text += `\`\`\`Service Charge - $${priceFormatter.format(extractedSvcCharge)}\`\`\`\n`;
+    text += `\`\`\`GST - $${priceFormatter.format(extractedGst)}\`\`\`\n`;
+    text += `\`\`\`Total - $${priceFormatter.format(subtotal + extractedGst + extractedSvcCharge)}\`\`\`\n`;
+    return text;
+}
+
+export const copyToClipboard = async (formattedText: string) => {
+    await navigator.clipboard.writeText(formattedText);
+}

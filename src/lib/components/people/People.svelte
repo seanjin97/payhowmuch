@@ -2,24 +2,22 @@
 	import { people, personCount } from '$lib/store';
 	import type { Person as PersonType } from '$lib/types';
 	import Person from './person/Person.svelte';
-	import { generateUsername } from 'unique-username-generator';
 	import { v4 as uuidv4 } from 'uuid';
 	import randomColor from '$lib/handlers/random_color';
 	import ModalButton from '../common/ModalButton.svelte';
 	import Modal from '../common/Modal.svelte';
 	import Button from '../common/Button.svelte';
 	import { fade } from 'svelte/transition';
+	import { DEFAULT_PERSON } from '$lib/constants';
 	let expandedList: string[] = [];
 
 	const addPerson = () => {
-		// const randomName = generateUsername('-', 0, 9);
 		const randomName = `Person ${$personCount + 1}`;
 		const newPerson = {
 			id: uuidv4(),
 			name: randomName,
-			items: [],
 			styleProps: { primary: randomColor() },
-			subtotal: 0,
+			...DEFAULT_PERSON,
 		};
 		$people = [newPerson, ...$people];
 		$personCount++;
@@ -38,8 +36,8 @@
 	};
 
 	const resetPersonList = () => {
-		$people = [];
 		retractAllPersons();
+		$people = [];
 	};
 
 	const expandAllPersons = () => {
@@ -64,7 +62,7 @@
 </script>
 
 <div class="mt-8">
-	<h2 class="underline opacity-80">Who's sharing the bill</h2>
+	<h2 class="font-bold text-lg opacity-80">Who's sharing the bill?</h2>
 	<div class="flex justify-between items-center">
 		<Button styleProps="btn-circle mt-4 mb-2 hover:opacity-80" on:click={addPerson}>
 			<i class="fa-solid fa-plus" />

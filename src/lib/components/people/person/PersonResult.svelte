@@ -5,8 +5,9 @@
 		extractSvcCharge,
 		extractGst,
 	} from '$lib/handlers/util';
-	import { slide, fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 	import { gst, svcCharge } from '$lib/store';
+	import Button from '$lib/components/common/Button.svelte';
 	export let subtotal: number;
 
 	$: derivedSvcCharge = extractSvcCharge(subtotal, $svcCharge);
@@ -14,7 +15,6 @@
 	$: totalWithTax = calculateGstAndSvcCharge($svcCharge, subtotal, $gst);
 </script>
 
-<!-- TODO: Don't show result until items saved -->
 <div transition:slide|local>
 	<div class="flex justify-between items-center">
 		<div

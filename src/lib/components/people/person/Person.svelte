@@ -3,7 +3,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import PersonItem from './PersonItem.svelte';
 	import PersonTitle from './PersonTitle.svelte';
-	import { abbr } from '$lib/handlers/util';
+	import { abbr, copyToClipboard, formatCopyText } from '$lib/handlers/util';
 
 	import { slide } from 'svelte/transition';
 	import PersonAvatar from './PersonAvatar.svelte';
@@ -13,6 +13,7 @@
 	import Modal from '$lib/components/common/Modal.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import PersonResult from './PersonResult.svelte';
+	import { gst, svcCharge } from '$lib/store';
 
 	const dispatch = createEventDispatcher();
 	export let person: Person;
@@ -21,6 +22,7 @@
 	$: displayItems = expandedList.includes(person.id);
 	let underline = false;
 	let editMode = false;
+	let copied = false;
 
 	const setUnderline = () => {
 		underline = true;
@@ -38,14 +40,26 @@
 	};
 
 	const enableEditMode = () => {
+		copied = false;
 		editMode = true;
+		const updatedPerson = {
+			...person,
+			functionalProps: { ...person.functionalProps, isConfirmed: false },
+		};
+		dispatch('updatePerson', { updatedPerson });
 		toggleView(true);
 	};
 
 	const saveChanges = () => {
+		if (person.items.length === 0) {
+			return;
+		}
 		const sum = person.items.reduce((prevValue, currValue) => prevValue + currValue.price, 0);
-		console.log(sum);
-		const updatedPerson = { ...person, subtotal: sum };
+		const updatedPerson = {
+			...person,
+			subtotal: sum,
+			functionalProps: { ...person.functionalProps, isConfirmed: true },
+		};
 		dispatch('updatePerson', { updatedPerson });
 		editMode = false;
 	};
@@ -64,9 +78,16 @@
 	const toggleView = (expand: boolean) => {
 		dispatch('toggleView', { id: person.id, expand });
 	};
+
+	const copy = async () => {
+		await copyToClipboard(
+			formatCopyText(person.name, person.items, person.subtotal, $gst, $svcCharge),
+		);
+
+		copied = true;
+	};
 </script>
 
-<!-- TODO: Rich copy formatted text -->
 <div
 	class="card mb-4 border-solid border-2 relative"
 	transition:slide
@@ -121,10 +142,16 @@
 	<div class="absolute top-2 right-[74px] flex items-center justify-center">
 		{#if person.items.length > 0}
 			<Button
-				styleProps="btn-xs btn-outline hover:opacity-80 {editMode ? 'btn-disabled' : ''}"
-				on:click={() => console.log('copy')}
+				styleProps="btn-xs hover:opacity-80 {editMode ? 'btn-disabled' : ''} {copied
+					? 'btn-success'
+					: 'btn-outline'}"
+				on:click={copy}
 			>
-				<i class="fa-solid fa-copy" />
+				{#if copied}
+					<i class="fa-solid fa-circle-check font-bold text-black" />
+				{:else}
+					<i class="fa-solid fa-copy" />
+				{/if}
 			</Button>
 		{/if}
 	</div>

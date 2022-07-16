@@ -8,10 +8,14 @@ export interface StyleProps {
   primary: string;
 };
 
+export interface FunctionalProps {
+  isConfirmed: boolean;
+}
 export interface Person {
   id: string;
   name: string;
   items: Item[];
   styleProps: StyleProps,
-  subtotal: number
+  subtotal: number,
+  functionalProps: FunctionalProps
 };

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/handlers/click_outside';
 	import { tick } from 'svelte';
-	import { generateUsername } from 'unique-username-generator';
 	import { personCount } from '$lib/store';
 
 	export let personName: string;
@@ -20,7 +19,6 @@
 
 	const changeName = () => {
 		if (name.length === 0) {
-			// const randomName = generateUsername('-', 0, 9);
 			const randomName = `Person ${$personCount + 1}`;
 			const name = randomName;
 			personName = name;

@@ -1,13 +1,15 @@
 <script>
-	import Calculator from '$lib/components/calculator/Calculator.svelte';
 	import LightModeToggle from '$lib/components/common/LightModeToggle.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
 	import Hero from '$lib/components/hero/Hero.svelte';
 	import People from '$lib/components/people/People.svelte';
-	import Results from '$lib/components/results/Results.svelte';
+	import Summary from '$lib/components/summary/Summary.svelte';
 	import Tax from '$lib/components/tax/Tax.svelte';
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
+	import { people } from '$lib/store';
+	import { spring } from 'svelte/motion';
+
 	// NOTE: the element that is using one of the theme attributes must be in the DOM on mount
 	onMount(() => {
 		themeChange(false);
@@ -19,24 +21,36 @@
 	<title>PayHowMuch</title>
 </svelte:head>
 
-<div>
-	<div class="container mx-auto px-12 ">
-		<div class="mt-2">
+<div class="flex-wrapper">
+	<div class="mx-auto px-8">
+		<div class="mt-4">
 			<div class="flex justify-center">
 				<div class="max-w-parent">
 					<Hero />
 					<Tax />
 					<People />
-					<!-- <Calculator />
-					<Results /> -->
+					{#if $people.length > 0}
+						<Summary />
+					{/if}
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="fixed right-2 top-0 lg:right-4 mt-2 h-screen">
+	<div class="fixed right-0 top-2 lg:right-4 mt-2 h-screen">
 		<LightModeToggle />
 	</div>
 </div>
 
-<!-- <Footer /> -->
+<div class="mt-auto">
+	<Footer />
+</div>
+
+<style>
+	.flex-wrapper {
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+</style>

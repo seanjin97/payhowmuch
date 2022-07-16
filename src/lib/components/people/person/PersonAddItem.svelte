@@ -34,7 +34,7 @@
 		<div class="form-control mr-2">
 			<input
 				type="text"
-				placeholder="Name"
+				placeholder="Item Name"
 				class="input input-bordered input-xs w-full max-w-xs"
 				bind:value={name}
 				bind:this={ref}
