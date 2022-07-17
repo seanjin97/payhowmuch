@@ -1,3 +1,15 @@
+# PAYHOWMUCH
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fd99b79d-608b-4c0d-8c59-b4eb05d8f46f/deploy-status)](https://app.netlify.com/sites/payhowmuch/deploys)
+
+A stateless bill app that helps you to split the bill with your friends
+
+Features:
+
+-   Calculate how much each person should pay you.
+-   Customise goods and service tax (GST) & service charge rates.
+-   Generate expenditure breakdowns.
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).

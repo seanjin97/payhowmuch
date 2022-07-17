@@ -10,7 +10,7 @@
 			<li>
 				<i class="fas fa-circle-dot" />
 				<span class="md:text-lg"
-					>Customisable goods and service tax (GST) & service charge rates.
+					>Customise goods and service tax (GST) & service charge rates.
 				</span>
 			</li>
 			<li>
