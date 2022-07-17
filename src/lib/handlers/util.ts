@@ -70,6 +70,16 @@ export const formatCopyText = (name: string, items: Item[], subtotal: number, gs
     return text;
 }
 
+export const addSummaryToCopyText = (subtotal: number, svcCharges: number, gsts: number, total: number) => {
+    let text = `-------------------\nSUMMARY\n-------------------\n`;
+    text += `\`\`\`SUBTOTAL - $${priceFormatter.format(subtotal)}\`\`\`\n`;
+    text += `\`\`\`SERVICE CHARGE - $${priceFormatter.format(svcCharges)}\`\`\`\n`;
+    text += `\`\`\`GST - $${priceFormatter.format(gsts)}\`\`\`\n`;
+    text += `\`\`\`TOTAL - $${priceFormatter.format(total)}\`\`\`\n`;
+    return text
+
+}
+
 export const copyToClipboard = async (formattedText: string) => {
     await navigator.clipboard.writeText(formattedText);
 }
