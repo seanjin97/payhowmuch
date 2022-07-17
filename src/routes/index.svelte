@@ -8,10 +8,11 @@
 	import { onMount } from 'svelte';
 	import { themeChange } from 'theme-change';
 	import { people } from '$lib/store';
-	import { spring } from 'svelte/motion';
 
 	// NOTE: the element that is using one of the theme attributes must be in the DOM on mount
 	onMount(() => {
+		// Force light mode by default
+		localStorage.setItem('theme', 'winter');
 		themeChange(false);
 		// 👆 false parameter is required for svelte
 	});
