@@ -23,7 +23,7 @@
 		>
 			<div class="flex items-center">
 				<h4 class="font-medium text-md">Subtotal</h4>
-				<i class="fa-solid fa-circle-info text-sky-400 fa-xs" />
+				<i class="fa-solid fa-circle-info text-sky-400 fa-xs pl-[8px] " />
 			</div>
 		</div>
 		<div><p class="font-medium text-md">${priceFormatter.format(subtotal)}</p></div>
@@ -45,7 +45,7 @@
 		>
 			<div class="flex items-center">
 				<h4 class="font-medium text-md">GST</h4>
-				<i class="fa-solid fa-circle-info text-sky-400 fa-xs" />
+				<i class="fa-solid fa-circle-info text-sky-400 fa-xs pl-[8px] " />
 			</div>
 		</div>
 
