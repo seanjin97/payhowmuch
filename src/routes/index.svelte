@@ -47,7 +47,7 @@
 		</div>
 	</div>
 </div>
-<div class="fixed right-[5px] top-[5px] lg:right-4 mt-12 h-screen">
+<div class="fixed right-[4px] top-[5px] lg:right-4 mt-12 h-screen">
 	<LightModeToggle {theme} on:click={toggleDarkMode} />
 </div>
 <div class="mt-auto">

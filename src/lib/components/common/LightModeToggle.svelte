@@ -6,7 +6,7 @@
 	<!-- sun icon -->
 	<svg
 		on:click
-		class="{theme === 'winter' ? 'swap-on' : 'swap-off'} fill-current w-10 h-10"
+		class="{theme === 'winter' ? 'swap-on' : 'swap-off'} fill-current w-6 h-6 md:w-12 md:h-12"
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 24 24"
 		><path
@@ -17,7 +17,7 @@
 	<!-- moon icon -->
 	<svg
 		on:click
-		class="{theme === 'winter' ? 'swap-off' : 'swap-on'} fill-current w-10 h-10"
+		class="{theme === 'winter' ? 'swap-off' : 'swap-on'} fill-current w-6 h-6 md:w-12 md:h-12"
 		xmlns="http://www.w3.org/2000/svg"
 		viewBox="0 0 24 24"
 		><path
