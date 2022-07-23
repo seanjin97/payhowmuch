@@ -15,4 +15,4 @@ jobs:
     steps:
       - uses: dessant/issue-states@v2
         with:
-          closed-issue-columns : '✅ Done'
+          closed-issue-columns : '✅ Done, Closed, Done'
