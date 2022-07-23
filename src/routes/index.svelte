@@ -6,28 +6,26 @@
 	import Summary from '$lib/components/summary/Summary.svelte';
 	import Tax from '$lib/components/tax/Tax.svelte';
 	import { onMount } from 'svelte';
-	import { people } from '$lib/store';
-
-	let theme: string;
+	import { people, theme } from '$lib/store';
 
 	onMount(() => {
 		const existingTheme = localStorage.getItem('theme');
 		if (!existingTheme) {
 			const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
-			theme = prefersDarkMode.matches ? 'night' : 'winter';
-			localStorage.setItem('theme', theme);
-			document.documentElement.setAttribute('data-theme', theme);
+			$theme = prefersDarkMode.matches ? 'night' : 'winter';
+			localStorage.setItem('theme', $theme);
+			document.documentElement.setAttribute('data-theme', $theme);
 		} else {
-			theme = existingTheme;
-			document.documentElement.setAttribute('data-theme', theme);
+			$theme = existingTheme;
+			document.documentElement.setAttribute('data-theme', $theme);
 		}
 	});
 
 	const toggleDarkMode = () => {
-		const updatedTheme = theme === 'night' ? 'winter' : 'night';
+		const updatedTheme = $theme === 'night' ? 'winter' : 'night';
 		localStorage.setItem('theme', updatedTheme);
-		theme = updatedTheme;
-		document.documentElement.setAttribute('data-theme', theme);
+		$theme = updatedTheme;
+		document.documentElement.setAttribute('data-theme', $theme);
 	};
 </script>
 
@@ -48,7 +46,7 @@
 	</div>
 </div>
 <div class="fixed right-[4px] top-[5px] lg:right-4 mt-12 h-screen">
-	<LightModeToggle {theme} on:click={toggleDarkMode} />
+	<LightModeToggle on:click={toggleDarkMode} />
 </div>
 <div class="mt-auto">
 	<Footer />

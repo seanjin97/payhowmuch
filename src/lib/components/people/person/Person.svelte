@@ -4,17 +4,16 @@
 	import PersonItem from './PersonItem.svelte';
 	import PersonTitle from './PersonTitle.svelte';
 	import { abbr, copyToClipboard, formatCopyText } from '$lib/handlers/util';
-
+	import toast, { Toaster } from 'svelte-french-toast';
 	import { slide } from 'svelte/transition';
 	import PersonAvatar from './PersonAvatar.svelte';
 	import PersonAddItem from './PersonAddItem.svelte';
 	import Button from '$lib/components/common/Button.svelte';
-	import ModalButton from '$lib/components/common/ModalButton.svelte';
 	import Modal from '$lib/components/common/Modal.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import PersonResult from './PersonResult.svelte';
 	import { gst, svcCharge } from '$lib/store';
-	import NewModal from '$lib/components/common/NewModal.svelte';
+	import { theme } from '$lib/store';
 
 	const dispatch = createEventDispatcher();
 	export let person: Person;
@@ -87,6 +86,11 @@
 		);
 
 		copied = true;
+		toast.success('Successfully copied!', {
+			style: `background: ${$theme === 'winter' ? '#06142f' : '#202739'}; color: ${
+				$theme === 'winter' ? '#b6c4eb' : '#b6c4eb'
+			};`,
+		});
 	};
 
 	const emitDeletePerson = () => {
@@ -178,7 +182,7 @@
 		<Button on:click={() => (modalOpen = true)} styleProps="btn-xs btn-error  hover:opacity-80"
 			><i class="fas fa-trash-alt" /></Button
 		>
-		<NewModal on:primaryAction={emitDeletePerson} bind:modalOpen>
+		<Modal on:primaryAction={emitDeletePerson} bind:modalOpen>
 			<span slot="header">
 				<i class="fa-solid fa-exclamation fa-2xl text-warning bold" />
 			</span>
@@ -193,7 +197,7 @@
 			>
 			<span slot="secondaryButton">Cancel</span>
 			<span slot="actionButton">Confirm</span>
-		</NewModal>
+		</Modal>
 	</div>
 	<div class="absolute top-9 right-4">
 		{#if displayItems}
@@ -208,4 +212,5 @@
 			/>
 		{/if}
 	</div>
+	<Toaster />
 </div>

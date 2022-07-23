@@ -2,11 +2,9 @@
 	import { percentageFormatter } from '$lib/handlers/util';
 	import type { Person } from '$lib/types';
 	import type { Tweened } from 'svelte/motion';
-	import Button from '../common/Button.svelte';
 
 	export let countConfirmed: number;
 	export let percentageConfirmed: Tweened<number>;
-	export let copyAll: () => void;
 	export let people: Person[];
 </script>
 

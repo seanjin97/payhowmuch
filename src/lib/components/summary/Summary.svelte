@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { people, gst, svcCharge } from '$lib/store';
+	import { people, gst, svcCharge, theme } from '$lib/store';
+	import toast, { Toaster } from 'svelte-french-toast';
+
 	import {
 		addSummaryToCopyText,
 		copyToClipboard,
@@ -47,12 +49,17 @@
 		});
 		textToCopy += addSummaryToCopyText(totalSubtotal, totalSvcCharge, totalGST, totalTotal);
 		await copyToClipboard(textToCopy);
+		toast.success('Successfully copied!', {
+			style: `background: ${$theme === 'winter' ? '#06142f' : '#293247'}; color: ${
+				$theme === 'winter' ? '#b6c4eb' : '#b6c4eb'
+			};`,
+		});
 	};
 </script>
 
-<div class="card my-8 p-4 bg-neutral-focus text-neutral-content shadow-xl" transition:fade|local>
+<div class="card my-8 p-4 bg-neutral text-neutral-content shadow-xl" transition:fade|local>
 	<div class="flex justify-center items-center text-center mb-8">
-		<ConfirmedEdits people={$people} {copyAll} {countConfirmed} {percentageConfirmed} />
+		<ConfirmedEdits people={$people} {countConfirmed} {percentageConfirmed} />
 	</div>
 	<div
 		class="items-center text-center {Math.ceil($percentageConfirmed) === 100
@@ -102,4 +109,5 @@
 			{/if}
 		</div>
 	</div>
+	<Toaster />
 </div>

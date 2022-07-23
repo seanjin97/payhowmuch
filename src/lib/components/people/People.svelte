@@ -4,12 +4,11 @@
 	import Person from './person/Person.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import randomColor from '$lib/handlers/random_color';
-	import ModalButton from '../common/ModalButton.svelte';
 	import Modal from '../common/Modal.svelte';
 	import Button from '../common/Button.svelte';
 	import { fade } from 'svelte/transition';
 	import { DEFAULT_PERSON } from '$lib/constants';
-	import NewModal from '../common/NewModal.svelte';
+
 	let expandedList: string[] = [];
 	let modalOpen = false;
 
@@ -21,7 +20,7 @@
 			styleProps: { primary: randomColor() },
 			...DEFAULT_PERSON,
 		};
-		$people = [newPerson, ...$people];
+		$people = [...$people, newPerson];
 		$personCount++;
 	};
 
@@ -92,7 +91,7 @@
 				>
 			</div>
 
-			<NewModal on:primaryAction={resetPersonList} bind:modalOpen>
+			<Modal on:primaryAction={resetPersonList} bind:modalOpen>
 				<span slot="header">
 					<i class="fa-solid fa-exclamation fa-2xl text-warning bold" />
 				</span>
@@ -107,7 +106,7 @@
 				>
 				<span slot="secondaryButton">Cancel</span>
 				<span slot="actionButton">Confirm</span>
-			</NewModal>
+			</Modal>
 		{/if}
 	</div>
 
