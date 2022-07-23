@@ -8,7 +8,7 @@
 			</div>
 			<div>
 				<span class="footer-title">Created by</span>
-				<p>Built by Lee Sean Jin</p>
+				<p>Lee Sean Jin</p>
 			</div>
 		</div>
 	</div>

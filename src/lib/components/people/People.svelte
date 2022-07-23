@@ -9,7 +9,9 @@
 	import Button from '../common/Button.svelte';
 	import { fade } from 'svelte/transition';
 	import { DEFAULT_PERSON } from '$lib/constants';
+	import NewModal from '../common/NewModal.svelte';
 	let expandedList: string[] = [];
+	let modalOpen = false;
 
 	const addPerson = () => {
 		const randomName = `Person ${$personCount + 1}`;
@@ -83,12 +85,14 @@
 					>
 				{/if}
 
-				<ModalButton refFor="confirmReset" styleProps="btn-error btn-xs hover:opacity-80"
-					>Reset <i class="ml-1 fa-solid fa-circle-minus" /></ModalButton
+				<Button
+					on:click={() => (modalOpen = true)}
+					styleProps="btn-error btn-xs hover:opacity-80"
+					>Reset <i class="ml-1 fa-solid fa-circle-minus" /></Button
 				>
 			</div>
 
-			<Modal refId="confirmReset" primaryAction={resetPersonList}>
+			<NewModal on:primaryAction={resetPersonList} bind:modalOpen>
 				<span slot="header">
 					<i class="fa-solid fa-exclamation fa-2xl text-warning bold" />
 				</span>
@@ -103,7 +107,7 @@
 				>
 				<span slot="secondaryButton">Cancel</span>
 				<span slot="actionButton">Confirm</span>
-			</Modal>
+			</NewModal>
 		{/if}
 	</div>
 

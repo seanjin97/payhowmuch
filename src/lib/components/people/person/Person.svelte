@@ -14,6 +14,7 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import PersonResult from './PersonResult.svelte';
 	import { gst, svcCharge } from '$lib/store';
+	import NewModal from '$lib/components/common/NewModal.svelte';
 
 	const dispatch = createEventDispatcher();
 	export let person: Person;
@@ -23,6 +24,7 @@
 	let underline = false;
 	let editMode = false;
 	let copied = false;
+	let modalOpen = false;
 
 	const setUnderline = () => {
 		underline = true;
@@ -85,6 +87,10 @@
 		);
 
 		copied = true;
+	};
+
+	const emitDeletePerson = () => {
+		dispatch('removePerson', { id: person.id });
 	};
 </script>
 
@@ -169,13 +175,10 @@
 	</div>
 
 	<div class="absolute top-2 right-2 flex items-center justify-center">
-		<ModalButton refFor="confirmDeletePerson" styleProps="btn-xs btn-error  hover:opacity-80"
-			><i class="fas fa-trash-alt" /></ModalButton
+		<Button on:click={() => (modalOpen = true)} styleProps="btn-xs btn-error  hover:opacity-80"
+			><i class="fas fa-trash-alt" /></Button
 		>
-		<Modal
-			refId="confirmDeletePerson"
-			primaryAction={() => dispatch('removePerson', { id: person.id })}
-		>
+		<NewModal on:primaryAction={emitDeletePerson} bind:modalOpen>
 			<span slot="header">
 				<i class="fa-solid fa-exclamation fa-2xl text-warning bold" />
 			</span>
@@ -190,7 +193,7 @@
 			>
 			<span slot="secondaryButton">Cancel</span>
 			<span slot="actionButton">Confirm</span>
-		</Modal>
+		</NewModal>
 	</div>
 	<div class="absolute top-9 right-4">
 		{#if displayItems}
