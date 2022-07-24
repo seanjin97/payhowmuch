@@ -17,7 +17,9 @@
 	import ConfirmedEdits from './ConfirmedEdits.svelte';
 	import Button from '../common/Button.svelte';
 
-	$: countConfirmed = $people.filter((person) => person.functionalProps.isConfirmed).length;
+	$: countConfirmed = $people.filter(
+		(person) => person.functionalProps.isConfirmed && person.items.length > 0,
+	).length;
 
 	$: percentageConfirmed = tweened(0, { duration: 400, easing: cubicOut });
 
@@ -59,7 +61,7 @@
 
 <div class="card my-8 p-4 bg-neutral text-neutral-content shadow-xl" transition:fade|local>
 	<div class="flex justify-center items-center text-center mb-8">
-		<ConfirmedEdits people={$people} {countConfirmed} {percentageConfirmed} />
+		<ConfirmedEdits people={$people} {countConfirmed} {percentageConfirmed} {totalSubtotal} />
 	</div>
 	<div
 		class="items-center text-center {Math.ceil($percentageConfirmed) === 100
