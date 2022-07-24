@@ -4,7 +4,7 @@
 	import PersonItem from './PersonItem.svelte';
 	import PersonTitle from './PersonTitle.svelte';
 	import { abbr, copyToClipboard, formatCopyText } from '$lib/handlers/util';
-	import toast, { Toaster } from 'svelte-french-toast';
+	import toast from 'svelte-french-toast';
 	import { slide } from 'svelte/transition';
 	import PersonAvatar from './PersonAvatar.svelte';
 	import PersonAddItem from './PersonAddItem.svelte';
@@ -51,13 +51,11 @@
 	};
 
 	const saveChanges = () => {
-		if (person.items.length === 0) {
-			return;
-		}
 		const sum = person.items.reduce((prevValue, currValue) => prevValue + currValue.price, 0);
 
 		let updatedName = person.name;
 		if (updatedName.length === 0) {
+			$personCount++;
 			const randomName = `Person ${$personCount}`;
 			updatedName = randomName;
 		}
@@ -133,12 +131,14 @@
 				{/if}
 
 				{#if person.items.length === 0}
-					<div class="flex justify-center items-center p-4">
+					<div class="flex justify-center items-center p-2">
 						<h4 class="opacity-80">
 							No entries found. Click <Button
 								styleProps="btn-xs btn-warning hover:opacity-80"
 								on:click={enableEditMode}
-								><i class="fa-solid fa-pen-to-square" />
+							>
+								<p>Edit</p>
+								<i class="fa-solid fa-pen-to-square ml-1" />
 							</Button> to create your first item entry!
 						</h4>
 					</div>
@@ -159,31 +159,30 @@
 			</div>
 		{/if}
 	</div>
-
-	<div class="absolute top-2 right-[74px] flex items-center justify-center">
+	<div class="flex absolute top-2 right-2 justify-between items-center w-fill">
 		{#if person.items.length > 0}
 			<Button
-				styleProps="btn-xs hover:opacity-80 {editMode ? 'btn-disabled' : ''} btn-outline"
+				styleProps="btn-xs hover:opacity-80 {editMode
+					? 'btn-disabled'
+					: ''} btn-outline mr-1"
 				on:click={copy}
 			>
-				<i class="fa-solid fa-copy" />
+				<i class="fa-solid fa-copy ml-1" />
 			</Button>
 		{/if}
-	</div>
 
-	<div class="absolute top-2 right-10 flex items-center justify-center">
 		{#if editMode}
-			<Button styleProps="btn-xs btn-success hover:opacity-80" on:click={saveChanges}>
-				<i class="fa-solid fa-check" />
+			<Button styleProps="btn-xs btn-success hover:opacity-80 mr-1" on:click={saveChanges}>
+				<p>Save</p>
+				<i class="fa-solid fa-check ml-1" />
 			</Button>
 		{:else}
-			<Button styleProps="btn-xs btn-warning hover:opacity-80" on:click={enableEditMode}>
-				<i class="fa-solid fa-pen-to-square" />
+			<Button styleProps="btn-xs btn-warning hover:opacity-80 mr-1" on:click={enableEditMode}>
+				<p>Edit</p>
+				<i class="fa-solid fa-pen-to-square ml-1" />
 			</Button>
 		{/if}
-	</div>
 
-	<div class="absolute top-2 right-2 flex items-center justify-center">
 		<Button on:click={() => (modalOpen = true)} styleProps="btn-xs btn-error  hover:opacity-80"
 			><i class="fas fa-trash-alt" /></Button
 		>

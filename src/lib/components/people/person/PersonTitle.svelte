@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/handlers/click_outside';
-	import { personCount } from '$lib/store';
 
 	export let personName: string;
 	export let underline: boolean;
@@ -26,7 +25,7 @@
 			/>
 		</label>
 	{:else}
-		<div class="flex items-center hover:cursor-auto whitespace-nowrap " on:click={setFocus}>
+		<div class="flex items-center hover:cursor-auto" on:click={setFocus}>
 			<p
 				class="decoration-2 {underline
 					? 'underline'
