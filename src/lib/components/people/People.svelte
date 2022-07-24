@@ -13,7 +13,8 @@
 	let modalOpen = false;
 
 	const addPerson = () => {
-		const randomName = `Person ${$personCount + 1}`;
+		$personCount++;
+		const randomName = `Person ${$personCount}`;
 		const newPerson = {
 			id: uuidv4(),
 			name: randomName,
@@ -21,7 +22,6 @@
 			...DEFAULT_PERSON,
 		};
 		$people = [...$people, newPerson];
-		$personCount++;
 	};
 
 	const deletePerson = (event: CustomEvent<{ id: string }>) => {
@@ -39,6 +39,7 @@
 	const resetPersonList = () => {
 		retractAllPersons();
 		$people = [];
+		$personCount = 0;
 	};
 
 	const expandAllPersons = () => {
@@ -72,13 +73,13 @@
 			<div transition:fade|local>
 				{#if expandedList.length > 0}
 					<Button
-						styleProps="btn-info btn-xs hover:opacity-80"
+						styleProps="btn-primary btn-outline btn-xs hover:opacity-80"
 						on:click={retractAllPersons}
 						>Retract <i class="ml-1 fa-solid fa-angles-up" /></Button
 					>
 				{:else}
 					<Button
-						styleProps="btn-info btn-xs hover:opacity-80"
+						styleProps="btn-primary btn-outline btn-xs hover:opacity-80"
 						on:click={expandAllPersons}
 						>Expand <i class="ml-1 fa-solid fa-angles-down" /></Button
 					>

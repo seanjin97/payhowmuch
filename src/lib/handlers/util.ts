@@ -1,7 +1,7 @@
 import type { Item } from "$lib/types";
 
 export const abbr = (str: string) => {
-    if (str !== null && str.length !== 0) {
+    if (str !== null && str.length !== 0 && str.match(/\b([A-Za-z0-9])/g)) {        
         return str.match(/\b([A-Za-z0-9])/g).join('').toUpperCase();
     }
     return str;

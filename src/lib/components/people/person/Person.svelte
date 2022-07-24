@@ -14,15 +14,15 @@
 	import PersonResult from './PersonResult.svelte';
 	import { gst, svcCharge } from '$lib/store';
 	import { theme } from '$lib/store';
+	import { personCount } from '$lib/store';
 
 	const dispatch = createEventDispatcher();
 	export let person: Person;
-	$: abbrName = abbr(person.name);
+	let abbrName = abbr(person.name);
 	export let expandedList: string[];
 	$: displayItems = expandedList.includes(person.id);
 	let underline = false;
 	let editMode = false;
-	let copied = false;
 	let modalOpen = false;
 
 	const setUnderline = () => {
@@ -41,7 +41,6 @@
 	};
 
 	const enableEditMode = () => {
-		copied = false;
 		editMode = true;
 		const updatedPerson = {
 			...person,
@@ -56,12 +55,24 @@
 			return;
 		}
 		const sum = person.items.reduce((prevValue, currValue) => prevValue + currValue.price, 0);
+
+		let updatedName = person.name;
+		if (updatedName.length === 0) {
+			const randomName = `Person ${$personCount}`;
+			updatedName = randomName;
+		}
+
 		const updatedPerson = {
 			...person,
+			name: updatedName,
 			subtotal: sum,
 			functionalProps: { ...person.functionalProps, isConfirmed: true },
 		};
+
+		abbrName = abbr(updatedPerson.name);
+
 		dispatch('updatePerson', { updatedPerson });
+
 		editMode = false;
 	};
 
@@ -80,12 +91,11 @@
 		dispatch('toggleView', { id: person.id, expand });
 	};
 
-	const copy = async () => {
-		await copyToClipboard(
+	const copy = () => {
+		copyToClipboard(
 			formatCopyText(person.name, person.items, person.subtotal, $gst, $svcCharge),
 		);
 
-		copied = true;
 		toast.success('Successfully copied!', {
 			style: `background: ${$theme === 'winter' ? '#06142f' : '#202739'}; color: ${
 				$theme === 'winter' ? '#b6c4eb' : '#b6c4eb'
@@ -111,6 +121,7 @@
 				bind:personName={person.name}
 				{underline}
 				colour={person.styleProps.primary}
+				{editMode}
 			/>
 		</div>
 		{#if displayItems}
@@ -152,16 +163,10 @@
 	<div class="absolute top-2 right-[74px] flex items-center justify-center">
 		{#if person.items.length > 0}
 			<Button
-				styleProps="btn-xs hover:opacity-80 {editMode ? 'btn-disabled' : ''} {copied
-					? 'btn-success'
-					: 'btn-outline'}"
+				styleProps="btn-xs hover:opacity-80 {editMode ? 'btn-disabled' : ''} btn-outline"
 				on:click={copy}
 			>
-				{#if copied}
-					<i class="fa-solid fa-circle-check font-bold text-black" />
-				{:else}
-					<i class="fa-solid fa-copy" />
-				{/if}
+				<i class="fa-solid fa-copy" />
 			</Button>
 		{/if}
 	</div>
@@ -212,5 +217,4 @@
 			/>
 		{/if}
 	</div>
-	<Toaster />
 </div>

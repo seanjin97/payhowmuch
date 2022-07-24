@@ -7,7 +7,7 @@
 	import Tax from '$lib/components/tax/Tax.svelte';
 	import { onMount } from 'svelte';
 	import { people, theme } from '$lib/store';
-
+	import { Toaster } from 'svelte-french-toast';
 	onMount(() => {
 		const existingTheme = localStorage.getItem('theme');
 		if (!existingTheme) {
@@ -51,6 +51,7 @@
 <div class="mt-auto">
 	<Footer />
 </div>
+<Toaster />
 
 <style>
 	.flex-wrapper {
