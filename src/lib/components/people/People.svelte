@@ -9,9 +9,14 @@
 	import { fade } from 'svelte/transition';
 	import { DEFAULT_PERSON } from '$lib/constants';
 
+	let header: any;
+
+	const scrollToTop = () => {
+		header.scrollIntoView({ behavior: 'smooth' });
+	};
+
 	let expandedList: string[] = [];
 	let modalOpen = false;
-
 	const addPerson = () => {
 		$personCount++;
 		const randomName = `Person ${$personCount}`;
@@ -21,7 +26,8 @@
 			styleProps: { primary: randomColor() },
 			...DEFAULT_PERSON,
 		};
-		$people = [...$people, newPerson];
+		$people = [newPerson, ...$people];
+		scrollToTop();
 	};
 
 	const deletePerson = (event: CustomEvent<{ id: string }>) => {
@@ -64,7 +70,7 @@
 </script>
 
 <div class="mt-8">
-	<h2 class="font-bold text-lg opacity-80">Who's sharing the bill?</h2>
+	<h2 bind:this={header} class="font-bold text-lg opacity-80">Who's sharing the bill?</h2>
 	<div class="flex justify-between items-center">
 		<Button styleProps="btn-circle mt-4 mb-2 hover:opacity-80" on:click={addPerson}>
 			<i class="fa-solid fa-plus" />
@@ -112,14 +118,16 @@
 	</div>
 
 	{#if $people.length !== 0}
-		{#each $people as person (person.id)}
-			<Person
-				bind:person
-				{expandedList}
-				on:removePerson={deletePerson}
-				on:toggleView={updateExpandedPersons}
-				on:updatePerson={updatePerson}
-			/>
-		{/each}
+		<div>
+			{#each $people as person (person.id)}
+				<Person
+					bind:person
+					{expandedList}
+					on:removePerson={deletePerson}
+					on:toggleView={updateExpandedPersons}
+					on:updatePerson={updatePerson}
+				/>
+			{/each}
+		</div>
 	{/if}
 </div>

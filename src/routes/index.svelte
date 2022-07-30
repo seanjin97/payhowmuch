@@ -8,6 +8,10 @@
 	import { onMount } from 'svelte';
 	import { people, theme } from '$lib/store';
 	import { Toaster } from 'svelte-french-toast';
+	import Button from '$lib/components/common/Button.svelte';
+
+	let top: any;
+
 	onMount(() => {
 		const existingTheme = localStorage.getItem('theme');
 		if (!existingTheme) {
@@ -27,14 +31,14 @@
 		$theme = updatedTheme;
 		document.documentElement.setAttribute('data-theme', $theme);
 	};
+
+	const scrollToTop = () => {
+		top.scrollIntoView({ behavior: 'smooth' });
+	};
 </script>
 
-<svelte:head>
-	<title>PayHowMuch</title>
-</svelte:head>
-
-<div class="flex-wrapper">
-	<div class="px-8 flex justify-center mt-12">
+<div class="flex-wrapper" bind:this={top}>
+	<div class="px-10 flex justify-center mt-12">
 		<div class="max-w-parent">
 			<Hero />
 			<Tax />
@@ -45,8 +49,13 @@
 		</div>
 	</div>
 </div>
-<div class="fixed right-[4px] top-[5px] lg:right-4 mt-12 h-screen">
+<div class="fixed right-[8px] top-[5px] lg:right-4 mt-12 h-screen">
 	<LightModeToggle on:click={toggleDarkMode} />
+</div>
+<div class="fixed right-[8px] bottom-5 lg:right-4">
+	<Button styleProps="btn-accent btn-xs md:btn md:btn-accent" on:click={scrollToTop}
+		><i class="fa-solid fa-chevron-up" /></Button
+	>
 </div>
 <div class="mt-auto">
 	<Footer />

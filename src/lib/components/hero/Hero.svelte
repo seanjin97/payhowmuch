@@ -4,6 +4,10 @@
 		<ul class="py-6 list-none mt-4">
 			<li>
 				<i class="fa-solid fa-star" />
+				<span class="text-lg">Easily split the bill with your friends!</span>
+			</li>
+			<li>
+				<i class="fa-solid fa-star" />
 				<span class="text-lg">Calculate how much each person should pay you.</span>
 			</li>
 

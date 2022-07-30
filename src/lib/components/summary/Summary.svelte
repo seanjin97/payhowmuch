@@ -61,7 +61,7 @@
 
 <div class="card my-8 p-4 bg-neutral text-neutral-content shadow-xl" transition:fade|local>
 	<div class="flex justify-center items-center text-center mb-8">
-		<ConfirmedEdits people={$people} {countConfirmed} {percentageConfirmed} {totalSubtotal} />
+		<ConfirmedEdits people={$people} {countConfirmed} {percentageConfirmed} />
 	</div>
 	<div
 		class="items-center text-center {Math.ceil($percentageConfirmed) === 100
