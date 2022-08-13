@@ -7,4 +7,5 @@ export const DEFAULT_PERSON = {
     functionalProps: {
         isConfirmed: false
     },
+    sharedItems: []
 };

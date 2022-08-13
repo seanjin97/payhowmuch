@@ -9,3 +9,5 @@ declare namespace App {
 	// interface Session {}
 	// interface Stuff {}
 }
+
+/// <reference types="@sveltejs/kit" />

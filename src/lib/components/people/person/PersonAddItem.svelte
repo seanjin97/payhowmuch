@@ -2,6 +2,7 @@
 	import Button from '$lib/components/common/Button.svelte';
 	import { createEventDispatcher, onMount, tick } from 'svelte';
 
+	export let showAddIcon = true;
 	let name = '';
 	let price = '';
 	let ref: any;
@@ -49,8 +50,10 @@
 			/>
 		</div>
 
-		<Button type="submit" styleProps="ml-2 btn-primary btn-xs" on:click={localAddItem}>
-			<i class="fa-solid fa-plus" />
-		</Button>
+		{#if showAddIcon}
+			<Button type="submit" styleProps="ml-2 btn-primary btn-xs" on:click={localAddItem}>
+				<i class="fa-solid fa-plus" />
+			</Button>
+		{/if}
 	</div>
 </form>

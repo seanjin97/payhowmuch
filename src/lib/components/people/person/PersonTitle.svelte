@@ -3,8 +3,9 @@
 
 	export let personName: string;
 	export let underline: boolean;
-	export let colour: string;
-	export let editMode: boolean;
+	export let colour = '';
+	export let editMode = false;
+	export let styleProps = '';
 
 	let ref: any;
 
@@ -13,7 +14,7 @@
 	};
 </script>
 
-<h3 class="card-title">
+<h3 class="card-title {styleProps}">
 	{#if editMode}
 		<label class="flex items-center" use:clickOutside>
 			<input

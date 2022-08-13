@@ -1,1 +1,0 @@
-<div>Calculator area</div>

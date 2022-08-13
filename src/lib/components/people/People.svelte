@@ -1,21 +1,22 @@
 <script lang="ts">
-	import { people, personCount } from '$lib/store';
+	import { people, personCount, expandedList } from '$lib/store';
 	import type { Person as PersonType } from '$lib/types';
 	import Person from './person/Person.svelte';
 	import { v4 as uuidv4 } from 'uuid';
 	import randomColor from '$lib/handlers/random_color';
 	import Modal from '../common/Modal.svelte';
 	import Button from '../common/Button.svelte';
-	import { fade } from 'svelte/transition';
 	import { DEFAULT_PERSON } from '$lib/constants';
+	import { createEventDispatcher } from 'svelte';
+	import { slide } from 'svelte/transition';
+	import { expoInOut } from 'svelte/easing';
 
-	let header: any;
+	const dispatch = createEventDispatcher();
 
 	const scrollToTop = () => {
-		header.scrollIntoView({ behavior: 'smooth' });
+		dispatch('scrollToTop');
 	};
 
-	let expandedList: string[] = [];
 	let modalOpen = false;
 	const addPerson = () => {
 		$personCount++;
@@ -33,6 +34,7 @@
 	const deletePerson = (event: CustomEvent<{ id: string }>) => {
 		const removedPersonList = $people.filter((person) => person.id !== event.detail.id);
 		$people = removedPersonList;
+		$personCount -= 1;
 	};
 
 	const updatePerson = (event: CustomEvent<{ updatedPerson: PersonType }>) => {
@@ -50,34 +52,34 @@
 
 	const expandAllPersons = () => {
 		const expandedPeople = $people.map((people) => people.id);
-		expandedList = expandedPeople;
+		$expandedList = expandedPeople;
 	};
 
 	const retractAllPersons = () => {
-		expandedList = [];
+		$expandedList = [];
 	};
 
 	const updateExpandedPersons = (e: CustomEvent<{ id: string; expand: boolean }>) => {
 		let updatedList: string[];
 		if (e.detail.expand) {
-			updatedList = [...expandedList, e.detail.id];
+			updatedList = [...$expandedList, e.detail.id];
 		} else {
-			updatedList = expandedList.filter((personId) => personId !== e.detail.id);
+			updatedList = $expandedList.filter((personId) => personId !== e.detail.id);
 		}
 
-		expandedList = updatedList;
+		$expandedList = updatedList;
 	};
 </script>
 
-<div class="mt-8">
-	<h2 bind:this={header} class="font-bold text-lg opacity-80">Who's sharing the bill?</h2>
+<div class="mt-4" transition:slide|local={{ easing: expoInOut }}>
+	<h3 class="font-bold text-md opacity-80">Who's sharing the bill?</h3>
 	<div class="flex justify-between items-center">
 		<Button styleProps="btn-circle mt-4 mb-2 hover:opacity-80" on:click={addPerson}>
 			<i class="fa-solid fa-plus" />
 		</Button>
 		{#if $people.length > 0}
-			<div transition:fade|local>
-				{#if expandedList.length > 0}
+			<div>
+				{#if $expandedList.length > 0}
 					<Button
 						styleProps="btn-primary btn-outline btn-xs hover:opacity-80"
 						on:click={retractAllPersons}
@@ -122,7 +124,7 @@
 			{#each $people as person (person.id)}
 				<Person
 					bind:person
-					{expandedList}
+					expandedList={$expandedList}
 					on:removePerson={deletePerson}
 					on:toggleView={updateExpandedPersons}
 					on:updatePerson={updatePerson}

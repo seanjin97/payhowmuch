@@ -7,7 +7,6 @@
 	} from '$lib/handlers/util';
 	import { slide } from 'svelte/transition';
 	import { gst, svcCharge } from '$lib/store';
-	import Button from '$lib/components/common/Button.svelte';
 	export let subtotal: number;
 
 	$: derivedSvcCharge = extractSvcCharge(subtotal, $svcCharge);
@@ -18,7 +17,7 @@
 <div transition:slide|local>
 	<div class="flex justify-between items-center">
 		<div
-			class="tooltip flex w-fit tooltip-info tooltip-right"
+			class="tooltip flex w-fit tooltip-info"
 			data-tip="This is the sum of all item entries!"
 		>
 			<div class="flex items-center">
@@ -40,7 +39,7 @@
 	</div>
 	<div class="flex justify-between items-center">
 		<div
-			class="tooltip flex w-fit tooltip-info tooltip-right"
+			class="tooltip flex w-fit tooltip-info"
 			data-tip="GST is applied after Service Charges!"
 		>
 			<div class="flex items-center">

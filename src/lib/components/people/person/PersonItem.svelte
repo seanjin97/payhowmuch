@@ -19,7 +19,7 @@
 				{#if confirmDelete}
 					<div class="absolute left-0">
 						<div
-							class="tooltip tooltip-error tooltip-right"
+							class="tooltip tooltip-error"
 							data-tip="Tap again to confirm delete"
 							use:clickOutside
 							on:outclick={() => (confirmDelete = false)}
@@ -40,7 +40,7 @@
 				{/if}
 			{/if}
 			<p>
-				<span class="font-bold italic">{index + 1}:</span>
+				<span class="font-bold italic mr-1">{index + 1}:</span>
 				{item.name}
 			</p>
 		</div>

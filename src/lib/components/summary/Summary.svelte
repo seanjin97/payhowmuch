@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { people, gst, svcCharge, theme } from '$lib/store';
+	import { people, gst, svcCharge, theme, sharingItems } from '$lib/store';
 	import toast, { Toaster } from 'svelte-french-toast';
 
 	import {
@@ -18,12 +18,16 @@
 	import Button from '../common/Button.svelte';
 
 	$: countConfirmed = $people.filter(
-		(person) => person.functionalProps.isConfirmed && person.items.length > 0,
+		(person) =>
+			person.sharedItems.length > 0 ||
+			(person.functionalProps.isConfirmed && person.items.length > 0),
 	).length;
 
 	$: percentageConfirmed = tweened(0, { duration: 400, easing: cubicOut });
 
-	$: totalSubtotal = $people.reduce((prevValue, currValue) => prevValue + currValue.subtotal, 0);
+	$: totalSubtotal =
+		$people.reduce((prevValue, currValue) => prevValue + currValue.subtotal, 0) +
+		$sharingItems.reduce((prev, curr) => prev + curr.subtotal, 0);
 
 	$: totalSvcCharge = extractSvcCharge(totalSubtotal, $svcCharge);
 
@@ -43,6 +47,7 @@
 			textToCopy += formatCopyText(
 				person.name,
 				person.items,
+				person.sharedItems,
 				person.subtotal,
 				$gst,
 				$svcCharge,

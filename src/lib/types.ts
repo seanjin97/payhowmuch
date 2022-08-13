@@ -15,7 +15,15 @@ export interface Person {
   id: string;
   name: string;
   items: Item[];
-  styleProps: StyleProps,
-  subtotal: number,
-  functionalProps: FunctionalProps
+  styleProps: StyleProps;
+  subtotal: number;
+  functionalProps: FunctionalProps;
+  sharedItems: SharingItem[];
 };
+
+export interface SharingItem {
+  id: string;
+  name: string;
+  subtotal: number;
+  sharers: Person[];
+}

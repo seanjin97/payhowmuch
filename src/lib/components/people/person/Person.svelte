@@ -15,6 +15,8 @@
 	import { gst, svcCharge } from '$lib/store';
 	import { theme } from '$lib/store';
 	import { personCount } from '$lib/store';
+	import { expoOut } from 'svelte/easing';
+	import PersonSharedItems from './PersonSharedItems.svelte';
 
 	const dispatch = createEventDispatcher();
 	export let person: Person;
@@ -24,6 +26,13 @@
 	let underline = false;
 	let editMode = false;
 	let modalOpen = false;
+
+	$: subtotal =
+		person.subtotal +
+		person.sharedItems.reduce(
+			(prevValue, currValue) => prevValue + currValue.subtotal / currValue.sharers.length,
+			0,
+		);
 
 	const setUnderline = () => {
 		underline = true;
@@ -91,7 +100,14 @@
 
 	const copy = () => {
 		copyToClipboard(
-			formatCopyText(person.name, person.items, person.subtotal, $gst, $svcCharge),
+			formatCopyText(
+				person.name,
+				person.items,
+				person.sharedItems,
+				person.subtotal,
+				$gst,
+				$svcCharge,
+			),
 		);
 
 		toast.success('Successfully copied!', {
@@ -107,8 +123,8 @@
 </script>
 
 <div
-	class="card mb-4 border-solid border-2 relative"
-	transition:slide
+	class="card mb-4 border-solid border-2 relative overflow-visible max-w-[503px]"
+	transition:slide|local={{ duration: 300, easing: expoOut }}
 	on:mouseenter={setUnderline}
 	on:mouseleave={unSetunderline}
 >
@@ -120,6 +136,7 @@
 				{underline}
 				colour={person.styleProps.primary}
 				{editMode}
+				styleProps="ml-2"
 			/>
 		</div>
 		{#if displayItems}
@@ -133,26 +150,29 @@
 				{#if person.items.length === 0}
 					<div class="flex justify-center items-center p-2">
 						<h4 class="opacity-80">
-							No entries found. Click <Button
+							No personal items added for this person. Click <Button
 								styleProps="btn-xs btn-warning hover:opacity-80"
 								on:click={enableEditMode}
 							>
 								<p>Edit</p>
 								<i class="fa-solid fa-pen-to-square ml-1" />
-							</Button> to create your first item entry!
+							</Button> to add a personal item!
 						</h4>
 					</div>
 				{/if}
 
-				{#if person.items.length > 0}
+				{#if person.items.length > 0 || person.sharedItems.length > 0}
 					<div class="p-4 relative">
 						<h4 class="font-bold underline">Item entries</h4>
 						{#each person.items as item, index (item.id)}
 							<PersonItem {item} {index} {editMode} on:deleteItem={deleteItem} />
 						{/each}
+						{#each person.sharedItems as sharedItem}
+							<PersonSharedItems {sharedItem} />
+						{/each}
 						{#if !editMode}
 							<div class="divider" />
-							<PersonResult subtotal={person.subtotal} />
+							<PersonResult {subtotal} />
 						{/if}
 					</div>
 				{/if}

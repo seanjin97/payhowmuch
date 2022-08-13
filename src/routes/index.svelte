@@ -9,6 +9,7 @@
 	import { people, theme } from '$lib/store';
 	import { Toaster } from 'svelte-french-toast';
 	import Button from '$lib/components/common/Button.svelte';
+	import Bill from '$lib/components/bill/Bill.svelte';
 
 	let top: any;
 
@@ -42,17 +43,18 @@
 		<div class="max-w-parent">
 			<Hero />
 			<Tax />
-			<People />
+			<Bill />
 			{#if $people.length > 0}
 				<Summary />
 			{/if}
 		</div>
 	</div>
 </div>
-<div class="fixed right-[8px] top-[5px] lg:right-4 mt-12 h-screen">
+
+<div class="fixed right-[6px] top-[5px] lg:right-4 mt-12 h-screen">
 	<LightModeToggle on:click={toggleDarkMode} />
 </div>
-<div class="fixed right-[8px] bottom-5 lg:right-4">
+<div class="fixed right-[6px] bottom-5 lg:right-4">
 	<Button styleProps="btn-accent btn-xs md:btn md:btn-accent" on:click={scrollToTop}
 		><i class="fa-solid fa-chevron-up" /></Button
 	>

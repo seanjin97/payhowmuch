@@ -1,4 +1,4 @@
-import type { Item } from "$lib/types";
+import type { Item, SharingItem } from "$lib/types";
 
 export const abbr = (str: string) => {
     if (str !== null && str.length !== 0 && str.match(/\b([A-Za-z0-9])/g)) {        
@@ -54,12 +54,13 @@ export const calculateGstAndSvcCharge = (svcCharge: number, amount: number, gst:
     return amount + extractedSvcCharge + extractedGst;
  }
 
-export const formatCopyText = (name: string, items: Item[], subtotal: number, gst: number, svcCharge: number) => {
+export const formatCopyText = (name: string, items: Item[], sharedItems: SharingItem[], subtotal: number, gst: number, svcCharge: number) => {
     const extractedSvcCharge = extractSvcCharge(subtotal, svcCharge);
     const extractedGst = extractGst(extractedSvcCharge, subtotal, gst);
 
     let text = `**${name}**\n\n`;
-    items.forEach((item, index) => text += `\`\`\`${index + 1}: ${item.name} - $${priceFormatter.format(item.price)}\`\`\`\n`);
+    items.forEach((item, index) => text += `\`\`\`${index + 1}: ${item.name} - $${priceFormatter.format(item.price)}\`\`\`\n\n`);
+    sharedItems.forEach((item) => text += `\`\`\`(Shared with ${item.sharers.length}): ${item.name} - $${priceFormatter.format(item.subtotal / item.sharers.length)}\`\`\`\n`);
     text += "\n-------------------\n";
     text += "```";
     text += `Subtotal - $${priceFormatter.format(subtotal)}`;

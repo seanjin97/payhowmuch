@@ -6,7 +6,7 @@
 	export let styleProps: StyleProps;
 </script>
 
-<div class="avatar placeholder mr-2">
+<div class="avatar placeholder">
 	<div class="rounded-full w-8  cursor-default" style="background: {styleProps.primary}">
 		<span class="text-xs {isDarkBg(styleProps.primary) ? 'text-white' : 'text-black'}"
 			>{abbrName}</span
