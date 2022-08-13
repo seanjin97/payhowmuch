@@ -5,7 +5,7 @@
 	import PersonTitle from '../people/person/PersonTitle.svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Button from '../common/Button.svelte';
-	import { sharingItems, people } from '$lib/store';
+	import { sharingItems, people, theme } from '$lib/store';
 	import Modal from '../common/Modal.svelte';
 	import { abbr, priceFormatter } from '$lib/handlers/util';
 	import PersonAvatar from '../people/person/PersonAvatar.svelte';
@@ -79,7 +79,7 @@
 	on:mouseenter={setUnderline}
 	on:mouseleave={unSetunderline}
 >
-	<div class="p-4 card-body hover:cursor-pointer ">
+	<div class="p-4 card-body hover:cursor-auto ">
 		<div class="flex items-center w-fit justify-between">
 			<PersonTitle bind:personName={item.name} {underline} {editMode} />
 			{#if editMode}
@@ -106,6 +106,10 @@
 				<MultiSelect
 					outerDivClass="w-100 max-w-md"
 					inputClass="input input-bordered text-sm input-xs"
+					--sms-options-bg={$theme === 'night' ? '#293247' : '#06142f'}
+					--sms-text-color="#ffffff"
+					--sms-selected-text-color="#ffffff"
+					--sms-selected-bg={$theme === 'night' ? '#293247' : '#06142f'}
 					bind:selected={sharingWith}
 					options={validOptions}
 				/>

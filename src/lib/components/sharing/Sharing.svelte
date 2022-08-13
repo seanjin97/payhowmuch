@@ -18,6 +18,8 @@
 
 	const resetItemList = () => {
 		$sharingItems = [];
+		const updatedList = $people.map((person) => ({ ...person, sharedItems: [] }));
+		$people = updatedList;
 	};
 	const addItem = () => {
 		const newItem = {
